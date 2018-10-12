@@ -33,11 +33,11 @@ class _MyAppState extends State<MyApp> {
     initPlatformState();
 
     _locationSubscription =
-        _location.onLocationChanged().listen((Map<String,double> result) {
-          setState(() {
-            _currentLocation = result;
-          });
-        });
+        _location.onLocationChanged().listen((Map<String, double> result) {
+      setState(() {
+        _currentLocation = result;
+      });
+    });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -46,16 +46,15 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
 
     try {
-      _permission = await _location.hasPermission();
       location = await _location.getLocation();
-
 
       error = null;
     } on PlatformException catch (e) {
       if (e.code == 'PERMISSION_DENIED') {
         error = 'Permission denied';
       } else if (e.code == 'PERMISSION_DENIED_NEVER_ASK') {
-        error = 'Permission denied - please ask the user to enable it from the app settings';
+        error =
+            'Permission denied - please ask the user to enable it from the app settings';
       }
 
       location = null;
@@ -67,15 +66,13 @@ class _MyAppState extends State<MyApp> {
     //if (!mounted) return;
 
     setState(() {
-        _startLocation = location;
+      _startLocation = location;
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets;
-
 
     if (_currentLocation == null) {
       widgets = new List();
@@ -97,9 +94,8 @@ class _MyAppState extends State<MyApp> {
             : 'Error: $error\n')));
 
     widgets.add(new Center(
-      child: new Text(_permission 
-            ? 'Has permission : Yes' 
-            : "Has permission : No")));
+        child: new Text(
+            _permission ? 'Has permission : Yes' : "Has permission : No")));
 
     return new MaterialApp(
         home: new Scaffold(

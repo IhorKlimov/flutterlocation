@@ -57,6 +57,19 @@
     }
 }
 
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (status == kCLAuthorizationStatusDenied) {
+        if (self.flutterResult != nil){
+        self.flutterResult([FlutterError errorWithCode:@"PERMISSION_DENIED"
+                                           message:@"The user explicitly denied the use of location services for this app or location services are currently disabled in Settings."
+                                           details:nil]);
+        }
+    }
+    else if (status == kCLAuthorizationStatusAuthorized) {
+        // The user accepted authorization
+    }
+}
+
 -(void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     [self initLocation];
     if ([call.method isEqualToString:@"getLocation"]) {
